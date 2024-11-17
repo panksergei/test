@@ -13,13 +13,6 @@ describe('Open site', () => {
 
   })
 
-  it('verify Search field is present', () => {
-
-    Components.categorySearchBar.searchField.get()
-      .should('exist')
-
-  })
-
   it('should allow all cookies if dialog exists', () => {
 
     Dialogs.cookieDialog.get()
@@ -41,118 +34,132 @@ describe('Open site', () => {
 
 })
 
-describe('Open game and verify it is loaded', () => {
+describe('Verify Main menu', () => {
 
-  it('click on Book of Dead', () => {
+  const f = function (menu) {
 
-    const arr = {
-      a1: '1',
-      a2: '2',
-      a3: {
-        n: 'n',
-        l: {
-          a31: '31',
-          a32: '32'
-        }
-      },
-      a4: '4',
-    }
+    for (let i = 1; i < menu.length; i++) {
 
-    let sub = false
+      if (menu[i].length == 2) {
 
-    const f = function (obj) {
+        // console.log(`'click' Main`)
+        // console.log(`'click' ${menu[i][0]}`)
 
-      Object.entries(obj)
-        .forEach((key, val) => {
+        it(`'click' ${menu[i][0]}`, () => {
 
-          if (typeof val == "object") {
+          //if menu is opened due to test before was failed then close menu
+          Elements.get.byTag('[title ="Live chat button"]')
+            .should('exist')
+            .parent()
+            .invoke('attr', 'hidden')
+            .then(attr => {
+              console.log('attr', attr)
+              if (attr == 'hidden') {
 
-            if(obj[key].hasOwnProperty('name')){
+                Components.mainMenu.burgerIcon.get()
+                  .click()
 
-              console.log(`'click' Main ${val} has Name`)
+              }
+            })
 
-            }
+          Components.mainMenu.burgerIcon.get()
+            .click()
 
-            
-
-            sub = !sub
-            f(val)
-
-
-          } else {
-
-            if (sub) {
-
-              console.log(`'click' ${val}`)
-
-            } else {
-
-              console.log(`'click' Main`)
-              console.log(`'click' ${val}`)
-
-            }
-
-
-          }
+          Elements.get.byText('li', menu[i][0])
+            .should('exist')
+            .click()
 
         })
 
+        it(`'should verivy page ${menu[i][0]} is loaded`, () => {
+
+          Components.pageTitle.get()
+            .should('exist')
+            .should('contain', menu[i][1][0][0])
+
+          cy.url()
+            .should('eq', Cypress.config('baseUrl') + menu[i][1][0][1])
+
+        })
+
+
+      } else {
+        console.log('aaa', menu[i][1])
+        menu[i][1]
+          .forEach((el, ind) => {
+            // console.log(`'click' Main`)
+            // console.log(`'click' ${menu[i][0]}`)
+            // console.log(`'click' ${el}`)
+
+            it(`'click' ${el}`, () => {
+
+              //if menu is opened due to test before was failed then close menu
+              Elements.get.byTag('[title ="Live chat button"]')
+                .should('exist')
+                .parent()
+                .invoke('attr', 'hidden')
+                .then(attr => {
+                  console.log('attr', attr)
+                  if (attr == 'hidden') {
+
+                    Components.mainMenu.burgerIcon.get()
+                      .click()
+
+                  }
+                })
+
+              Components.mainMenu.burgerIcon.get()
+                .click()
+
+              //menu item click
+              Elements.get.byText('li', menu[i][0])
+                .should('exist')
+                .click()
+
+              //sub-menu click
+              Elements.get.byText('li', el)
+                .should('exist')
+                .click()
+
+            })
+
+            it(`'should verivy page' ${menu[i][2][ind][0]} is loaded`, () => {
+
+              Components.pageTitle.get()
+                .should('exist')
+                .as('title')
+
+              cy.get('@title')
+                .should('contain', menu[i][2][ind][0])
+
+
+              //                 cy.get('button').as('btn').click()
+              // > cy.get('@btn').should('have.class', 'active')
+
+              cy.url()
+                .should('eq', Cypress.config('baseUrl') + menu[i][2][ind][1])
+
+            })
+          })
+      }
+
     }
-    f(arr)
-    // Object.values(arr)
-    //   .forEach(val => {
 
-    //     if (typeof val == "object") {
+  }
 
-    //       Object.values(val)
-    //         .forEach(val => {
+  f(Components.mainMenu.menuItems)
 
-    //           console.log('###', val)
-
-    //         })
-
-    //     } else {
-
-    //       console.log('###', val)
-
-    //     }
-
-    //   })
-
-    cy.get('svg')
-      .first()
-      .click()
+  // Components.mainMenu.burgerIcon.get()
+  //   .click()
 
 
 
-    cy.pause()
+  // cy.pause()
 
-    Elements.slot.get.byName(Elements.slot.bookOfDead.name)
-      .should('exist')
-      .trigger('mouseover')
-      .then(slot => {
 
-        Elements.slot.buttons.play.get(slot)
-          .should('exist')
-          .click()
 
-      })
 
-  })
 
-  it('verify url contains game\'s name', () => {
-
-    cy.url()
-      .should('eq', Cypress.config('baseUrl') + Elements.slot.url + Elements.slot.bookOfDead.url)
-
-  })
-
-  it('verify game\'s iFrame is loaded', () => {
-
-    Components.gameIFrame.get()
-      .should('exist')
-
-  })
 
 
 
