@@ -21,20 +21,7 @@ describe('Open site', () => {
 
     it('should allow all cookies if dialog exists', () => {
 
-        Dialogs.cookieDialog.get()
-            .then(dialog => {
-
-                if (dialog.length != 0) {
-
-                    Dialogs.cookieDialog.buttons.allowAll.get()
-                        .click()
-
-                    Dialogs.cookieDialog.get()
-                        .should('not.exist')
-
-                }
-
-            })
+        Dialogs.cookieDialog.action.acceptAllCookies()
 
     })
 
@@ -78,30 +65,30 @@ describe('Select different languages', () => {
     Object.keys(translTable)
         .forEach(val => {
 
-                it('open dropdown', () => {
+            it('open dropdown', () => {
 
-                    Components.languageSwitching.get()
-                        .click()
+                Components.languageSwitching.get()
+                    .click()
 
-                })
+            })
 
-                it(`select ${val} language`, () => {
+            it(`select ${val} language`, () => {
 
-                    Components.languageSwitching.get()
-                        .contains(Components.languageSwitching.optionList[val])
-                        .click()
+                Components.languageSwitching.get()
+                    .contains(Components.languageSwitching.optionList[val])
+                    .click()
 
-                })
+            })
 
-                it(`Search field is translated to ${val}`, () => {
+            it(`Search field is translated to ${val}`, () => {
 
-                    Components.categorySearchBar.searchField.get()
-                        .should('exist')
-                        .find('input')
-                        .invoke('attr', 'placeholder')
-                        .should('contain', translTable[val])
+                Components.categorySearchBar.searchField.get()
+                    .should('exist')
+                    .find('input')
+                    .invoke('attr', 'placeholder')
+                    .should('contain', translTable[val])
 
-                })
+            })
 
         })
 

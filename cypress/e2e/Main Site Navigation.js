@@ -15,20 +15,7 @@ describe('Open site', () => {
 
   it('should allow all cookies if dialog exists', () => {
 
-    Dialogs.cookieDialog.get()
-      .then(dialog => {
-
-        if (dialog.length != 0) {
-
-          Dialogs.cookieDialog.buttons.allowAll.get()
-            .click()
-
-          Dialogs.cookieDialog.get()
-            .should('not.exist')
-
-        }
-
-      })
+    Dialogs.cookieDialog.action.acceptAllCookies()
 
   })
 
@@ -41,9 +28,6 @@ describe('Verify Main menu', () => {
     for (let i = 1; i < menu.length; i++) {
 
       if (menu[i].length == 2) {
-
-        // console.log(`'click' Main`)
-        // console.log(`'click' ${menu[i][0]}`)
 
         it(`'click' ${menu[i][0]}`, () => {
 
@@ -75,7 +59,10 @@ describe('Verify Main menu', () => {
 
           Components.pageTitle.get()
             .should('exist')
-            .should('contain', menu[i][1][0][0])
+            .as('title')
+
+            cy.get('@title')
+              .should('contain', menu[i][1][0][0])
 
           cy.url()
             .should('eq', Cypress.config('baseUrl') + menu[i][1][0][1])
@@ -87,9 +74,6 @@ describe('Verify Main menu', () => {
         console.log('aaa', menu[i][1])
         menu[i][1]
           .forEach((el, ind) => {
-            // console.log(`'click' Main`)
-            // console.log(`'click' ${menu[i][0]}`)
-            // console.log(`'click' ${el}`)
 
             it(`'click' ${el}`, () => {
 
@@ -132,10 +116,6 @@ describe('Verify Main menu', () => {
               cy.get('@title')
                 .should('contain', menu[i][2][ind][0])
 
-
-              //                 cy.get('button').as('btn').click()
-              // > cy.get('@btn').should('have.class', 'active')
-
               cy.url()
                 .should('eq', Cypress.config('baseUrl') + menu[i][2][ind][1])
 
@@ -148,19 +128,5 @@ describe('Verify Main menu', () => {
   }
 
   f(Components.mainMenu.menuItems)
-
-  // Components.mainMenu.burgerIcon.get()
-  //   .click()
-
-
-
-  // cy.pause()
-
-
-
-
-
-
-
 
 })

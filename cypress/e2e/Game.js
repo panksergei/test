@@ -21,20 +21,7 @@ describe('Open site', () => {
 
   it('should allow all cookies if dialog exists', () => {
 
-    Dialogs.cookieDialog.get()
-      .then(dialog => {
-
-        if (dialog.length != 0) {
-
-          Dialogs.cookieDialog.buttons.allowAll.get()
-            .click()
-
-          Dialogs.cookieDialog.get()
-            .should('not.exist')
-
-        }
-
-      })
+    Dialogs.cookieDialog.action.acceptAllCookies()
 
   })
 
