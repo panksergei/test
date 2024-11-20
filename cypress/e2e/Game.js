@@ -4,6 +4,10 @@ const { Elements } = require("../Library/Elements")
 
 describe('Open site', () => {
 
+  before(() => {
+    cy.clearAllCookies()
+  })
+
   it('visit', () => {
 
     cy.visit(Cypress.config('baseUrl'))

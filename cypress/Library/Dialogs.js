@@ -4,7 +4,7 @@ export class Dialogs {
 
     static cookieDialog = {
 
-        tag: "[id='CybotCookiebotDialog'",
+        tag: "[id='CybotCookiebotDialog']",
 
         get() {
 
@@ -36,20 +36,10 @@ export class Dialogs {
             acceptAllCookies() {
 
                 Dialogs.cookieDialog.get()
-                    .then(dialog => {
+                    .should('exist')
 
-                        //click Allow All button if dialog exists and wait dialo disappears
-                        if (dialog.length != 0) {
-
-                            Dialogs.cookieDialog.buttons.allowAll.get()
-                                .click()
-
-                            Dialogs.cookieDialog.get()
-                                .should('not.exist')
-
-                        }
-
-                    })
+                Dialogs.cookieDialog.buttons.allowAll.get()
+                    .click()
 
             }
 

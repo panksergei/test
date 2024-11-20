@@ -4,6 +4,10 @@ const { Elements } = require("../Library/Elements")
 
 describe('Open site', () => {
 
+    before(() => {
+        cy.clearAllCookies()
+    })
+
     it('visit', () => {
 
         cy.visit(Cypress.config('baseUrl'))
@@ -87,6 +91,13 @@ describe('Select different languages', () => {
                     .find('input')
                     .invoke('attr', 'placeholder')
                     .should('contain', translTable[val])
+
+            })
+
+            it(`url with ${val} exists`, () => {
+
+                cy.url()
+                    .should('eq', Cypress.config('baseUrl') + val)
 
             })
 

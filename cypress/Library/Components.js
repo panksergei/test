@@ -95,7 +95,9 @@ export class Components {
 
         burgerIcon: {
 
-            get() { return Elements.get.byTag('svg').first() }
+            tag: '.burger',
+
+            get() { return Elements.get.byTag(this.tag) }
 
         }
     }

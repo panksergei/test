@@ -5,7 +5,7 @@ const urls = {
     boostcasino_url: 'https://www.boostcasino.com/',
 }
 
-// node Instances/prod-open
+// node Instances/bc
 cypress.open({
 
     config: {

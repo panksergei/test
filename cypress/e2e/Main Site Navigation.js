@@ -1,9 +1,18 @@
-const { name } = require("commander")
 const { Components } = require("../Library/Components")
 const { Dialogs } = require("../Library/Dialogs")
 const { Elements } = require("../Library/Elements")
 
 describe('Open site', () => {
+
+  before(() => {
+    cy.clearAllCookies()
+
+    Cypress.config('viewportWidth', 414)
+    Cypress.config('viewportHeight', 896)
+
+  })
+
+
 
   it('visit', () => {
 
@@ -61,8 +70,8 @@ describe('Verify Main menu', () => {
             .should('exist')
             .as('title')
 
-            cy.get('@title')
-              .should('contain', menu[i][1][0][0])
+          cy.get('@title')
+            .should('contain', menu[i][1][0][0])
 
           cy.url()
             .should('eq', Cypress.config('baseUrl') + menu[i][1][0][1])
