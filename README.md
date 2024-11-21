@@ -13,8 +13,8 @@ Select testProject -> Open. <br>
 ### Install Cypress
 View -> Terminal. <br>
 In terminal: ```npm install cypress --save-dev``` <br>
-After install is finished. <br>
-### Opening Cypress and run tests
+Wait for installation. <br>
+### Opening Cypress and running tests
 In terminal: ```npx cypress open``` <br>
 Cypress dialog will be opened. <br>
 Click E2E Testing. <br>
